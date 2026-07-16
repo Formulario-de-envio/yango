@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Yango</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.33.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ── MODO CLARO (default) ─────────────────────────── */
+:root{
+  --bg:#f0f0eb;
+  --surface:#ffffff;
+  --border:#ddddd5;
+  --green:#0a7a48;--green-dim:#0a5c38;--green-bg:#e4f5ec;--green-text:#0a7a48;
+  --blue:#1060a8;--blue-bg:#e6f0fa;--blue-text:#1060a8;
+  --text:#111110;--text2:#555550;--text3:#888880;
+  --red:#c02020;--amber:#a06000;--amber-bg:#fff5e0;--amber-text:#a06000;
+  --radius:10px;--radius-sm:7px;
+  --shadow:0 1px 4px rgba(0,0,0,.09);
+  --input-bg:#f8f8f4;
+}
+/* ── MODO OSCURO ──────────────────────────────────── */
+[data-theme="dark"]{
+  --bg:#0f1117;--surface:#1a1d27;--border:#2a2f45;
+  --green:#1db877;--green-dim:#0f6e47;--green-bg:#0a2a1a;--green-text:#1db877;
+  --blue:#4a9eff;--blue-bg:#0a1a2e;--blue-text:#4a9eff;
+  --text:#f0f2f8;--text2:#8a90a8;--text3:#4a5070;
+  --red:#ff5252;--amber:#f59e0b;--amber-bg:#1a1200;--amber-text:#f59e0b;
+  --shadow:none;
+  --input-bg:#0f1117;
+}
+
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .25s,color .25s}
+
+.nav{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;background:none;border:none;color:var(--text2);cursor:pointer;font-size:10px;transition:color .2s}
+.nav-btn i{font-size:20px}
+.nav-btn.active{color:var(--green)}
+.view{display:none;padding:1rem;max-width:420px;margin:0 auto;padding-bottom:3rem}
+.view.active{display:block}
+
+/* CLOSED BANNER */
+.closed-banner{background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.closed-banner-left{display:flex;align-items:center;gap:8px}
+.closed-banner-title{font-size:13px;font-weight:600;color:var(--amber-text)}
+.closed-banner-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.reopen-btn{background:none;border:1px solid var(--amber);border-radius:var(--radius-sm);padding:6px 12px;font-size:12px;color:var(--amber-text);cursor:pointer;white-space:nowrap}
+
+/* HERO */
+.goal-hero{background:var(--surface);border-radius:14px;padding:1.25rem 1.25rem 1rem;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.goal-eyebrow{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.goal-remaining{font-size:56px;font-weight:700;line-height:1;letter-spacing:-2px;color:var(--text);transition:color .4s}
+.goal-remaining.done{color:var(--green-text)}
+.currency{font-size:22px;font-weight:400;color:var(--text2);vertical-align:top;margin-top:12px;display:inline-block}
+.goal-sub{font-size:13px;color:var(--text2);margin-top:6px}
+.goal-sub b{color:var(--green-text)}
+.progress-track{background:var(--bg);border-radius:99px;height:6px;overflow:hidden;border:1px solid var(--border);margin-top:14px}
+.progress-fill{height:100%;border-radius:99px;background:var(--green);transition:width .5s ease}
+.progress-labels{display:flex;justify-content:space-between;margin-top:5px;font-size:11px;color:var(--text3)}
+
+.done-banner{background:var(--green-bg);border:1px solid var(--green-dim);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.done-banner span{font-size:13px;color:var(--green-text)}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow)}
+.stat-label{font-size:11px;color:var(--text3);margin-bottom:4px}
+.stat-val{font-size:20px;font-weight:600}
+.stat-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.g{color:var(--green-text)}.b{color:var(--blue-text)}
+
+.saldo-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;cursor:pointer;box-shadow:var(--shadow)}
+.saldo-label{font-size:11px;color:var(--text3);margin-bottom:3px}
+.saldo-val{font-size:17px;font-weight:600;color:var(--text)}
+.saldo-hint{font-size:11px;color:var(--text3)}
+
+/* ADD TRIP */
+.add-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.fare-input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0 14px;height:52px;font-size:22px;font-weight:700;color:var(--text);outline:none;margin-bottom:10px}
+.fare-input:focus{border-color:var(--green)}
+.fare-input::placeholder{color:var(--text3);font-weight:400;font-size:16px}
+.preview{font-size:13px;color:var(--text2);margin-bottom:10px;min-height:18px;line-height:1.5}
+.preview b{color:var(--text)}
+.action-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.act-btn{height:52px;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s,transform .1s;position:relative;overflow:hidden}
+.act-btn:disabled{opacity:.3;cursor:not-allowed}
+.act-btn:active:not(:disabled){transform:scale(.97)}
+.act-btn i{font-size:18px}
+.act-cash{background:var(--green);color:#fff}
+.act-card{background:var(--blue-bg);color:var(--blue-text);border:1px solid var(--border)}
+[data-theme="dark"] .act-card{background:#1a3a5c;border-color:#2a4a6c}
+
+/* TRIPS */
+.trips-list{display:flex;flex-direction:column;gap:6px}
+.trip-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:11px 12px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.trip-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.t-cash .trip-icon{background:var(--green-bg);color:var(--green-text)}
+.t-card .trip-icon{background:var(--blue-bg);color:var(--blue-text)}
+.trip-info{flex:1;min-width:0}
+.trip-fare-line{font-size:14px;font-weight:600;color:var(--text)}
+.trip-detail{font-size:11px;color:var(--text2);margin-top:2px}
+.trip-net-val{font-size:14px;font-weight:600;color:var(--green-text)}
+.trip-net-type{font-size:10px;color:var(--text3);margin-top:1px;text-align:right}
+.undo-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:14px;color:var(--text3);cursor:pointer;margin-left:4px;flex-shrink:0}
+.undo-btn:hover{border-color:var(--red);color:var(--red)}
+.empty-trips{text-align:center;padding:2rem 1rem;color:var(--text3);font-size:14px}
+
+.close-day-wrap{margin-top:20px;text-align:center}
+.close-day-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 20px;color:var(--text2);font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.close-day-btn:hover{border-color:var(--amber);color:var(--amber-text)}
+.close-day-hint{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* HISTORY */
+.hist-nav{display:flex;gap:6px;margin-bottom:14px}
+.hist-tab{flex:1;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--text2);text-align:center;cursor:pointer}
+.hist-tab.sel{background:var(--green);color:#fff;border-color:transparent}
+
+/* SUMMARY CARDS */
+.summary-card{border-radius:var(--radius);padding:14px;margin-bottom:12px;border:1px solid}
+.summary-card.week-c{background:var(--green-bg);border-color:var(--green-dim)}
+.summary-card.month-c{background:var(--blue-bg);border-color:var(--border)}
+.summary-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.week-c .summary-title{color:var(--green-text)}
+.month-c .summary-title{color:var(--blue-text)}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sum-grid.full{grid-template-columns:1fr}
+.wstat{background:var(--surface);border-radius:var(--radius-sm);padding:10px 12px;border:1px solid var(--border)}
+.wstat-label{font-size:10px;color:var(--text3);margin-bottom:3px}
+.wstat-val{font-size:16px;font-weight:700;color:var(--text)}
+.wstat-val.g{color:var(--green-text)}
+.wstat-val.b{color:var(--blue-text)}
+
+.hist-day{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow)}
+.hist-day-header{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.hist-day-date{font-size:13px;font-weight:600;color:var(--text)}
+.hist-day-meta{font-size:12px;color:var(--text2)}
+.hist-day-net.hit{color:var(--green-text)}
+.hist-day-net.miss{color:var(--amber-text)}
+.hist-trips{padding:0 12px 10px;display:none;flex-direction:column;gap:4px;border-top:1px solid var(--border)}
+.hist-trips.open{display:flex}
+.hist-trip-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2)}
+.hist-trip-row:last-child{border-bottom:none}
+.hist-trip-net{color:var(--green-text);font-weight:500}
+
+/* SETTINGS */
+.settings-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow)}
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border-bottom:none}
+.settings-label{font-size:14px;color:var(--text)}
+.settings-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.goal-input-s{width:90px;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;font-size:15px;font-weight:600;color:var(--text);text-align:right;outline:none}
+.goal-input-s:focus{border-color:var(--green)}
+.export-btn{width:100%;height:44px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
+.theme-toggle{display:flex;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.theme-btn{flex:1;padding:8px;background:none;border:none;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
+.theme-btn.sel{background:var(--surface);color:var(--text);font-weight:600;border-radius:var(--radius-sm);box-shadow:var(--shadow)}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:16px 16px 0 0;padding:1.5rem;width:100%;max-width:420px}
+.modal h3{font-size:16px;margin-bottom:4px;color:var(--text)}
+.modal p{font-size:13px;color:var(--text2);margin-bottom:16px}
+.modal-input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:24px;font-weight:700;color:var(--text);text-align:center;outline:none;margin-bottom:12px}
+.modal-input:focus{border-color:var(--green)}
+.modal-btns{display:flex;gap:8px}
+.modal-btns button{flex:1;height:44px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:15px;font-weight:500;cursor:pointer}
+.modal-cancel{background:var(--input-bg);color:var(--text2)}
+.modal-save{background:var(--green);color:#fff;border-color:transparent}
+.modal-warn{background:var(--amber);color:#111;border-color:transparent}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="goView('home',this)"><i class="ti ti-target"></i>Hoy</button>
+  <button class="nav-btn" onclick="goView('history',this)"><i class="ti ti-calendar-week"></i>Historial</button>
+  <button class="nav-btn" onclick="goView('settings',this)"><i class="ti ti-settings"></i>Ajustes</button>
+</div>
+
+<!-- HOME -->
+<div class="view active" id="view-home">
+  <div style="height:12px"></div>
+  <div class="closed-banner" id="closed-banner" style="display:none">
+    <div class="closed-banner-left">
+      <i class="ti ti-moon" style="color:var(--amber-text);font-size:18px"></i>
+      <div>
+        <div class="closed-banner-title">Día cerrado</div>
+        <div class="closed-banner-sub">Las nuevas carreras van al siguiente día</div>
+      </div>
+    </div>
+    <button class="reopen-btn" onclick="reopenDay()"><i class="ti ti-arrow-back-up"></i> Reabrir</button>
+  </div>
+
+  <div class="goal-hero">
+    <div class="goal-eyebrow" id="hero-eyebrow">te falta ganar hoy</div>
+    <div class="goal-remaining" id="remaining-display"><span class="currency">S/ </span><span id="remaining-num">310</span></div>
+    <div class="goal-sub" id="goal-sub-text">Meta: <b>S/ 310</b> · 0 carreras</div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="progress-labels"><span id="pct-label">0% completado</span><span id="meta-label">meta S/310</span></div>
+  </div>
+
+  <div class="done-banner" id="done-banner" style="display:none">
+    <i class="ti ti-trophy" style="color:var(--green-text);font-size:20px"></i>
+    <span>¡Meta alcanzada! Cerraste el día 💪</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-label">Efectivo / Yape</div>
+      <div class="stat-val g" id="stat-cash">S/ 0</div>
+      <div class="stat-sub">en mano</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Tarjeta Yango</div>
+      <div class="stat-val b" id="stat-card">S/ 0</div>
+      <div class="stat-sub">cobras el martes</div>
+    </div>
+  </div>
+
+  <div class="saldo-row" onclick="openSaldoModal()">
+    <div>
+      <div class="saldo-label">Saldo en app Yango</div>
+      <div class="saldo-val" id="saldo-display">S/ 0.00</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span class="saldo-hint">toca para editar</span>
+      <i class="ti ti-edit" style="color:var(--text3);font-size:18px"></i>
+    </div>
+  </div>
+
+  <div class="add-card">
+    <div class="section-title">Registrar carrera</div>
+    <input class="fare-input" type="number" id="fare-input" placeholder="S/ monto del pasajero" min="1" oninput="updatePreview()">
+    <div class="preview" id="preview-text">Ingresa el monto, luego toca Efectivo o Tarjeta</div>
+    <div class="action-btns">
+      <button class="act-btn act-cash" id="btn-cash" onclick="addTrip('cash',event)" disabled><i class="ti ti-cash"></i> Efectivo</button>
+      <button class="act-btn act-card" id="btn-card" onclick="addTrip('card',event)" disabled><i class="ti ti-credit-card"></i> Tarjeta</button>
+    </div>
+  </div>
+
+  <div class="section-title">Carreras de hoy</div>
+  <div class="trips-list" id="trips-list">
+    <div class="empty-trips"><i class="ti ti-car" style="font-size:28px;display:block;margin-bottom:6px"></i>Aún no registras carreras hoy</div>
+  </div>
+
+  <div class="close-day-wrap" id="close-day-wrap">
+    <button class="close-day-btn" onclick="document.getElementById('close-overlay').classList.add('open')">
+      <i class="ti ti-moon"></i> Cerrar día
+    </button>
+    <div class="close-day-hint">Las carreras siguientes irán al próximo día</div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div class="view" id="view-history">
+  <div style="height:12px"></div>
+  <div id="summaries-wrap"></div>
+  <div class="hist-nav">
+    <div class="hist-tab sel" onclick="setHistTab('week',this)">Esta semana</div>
+    <div class="hist-tab" onclick="setHistTab('month',this)">Este mes</div>
+    <div class="hist-tab" onclick="setHistTab('all',this)">Todo</div>
+  </div>
+  <div id="hist-content"></div>
+</div>
+
+<!-- SETTINGS -->
+<div class="view" id="view-settings">
+  <div style="height:12px"></div>
+
+  <div class="section-title">Apariencia</div>
+  <div class="settings-card">
+    <div style="padding:14px">
+      <div class="settings-label" style="margin-bottom:10px">Tema</div>
+      <div class="theme-toggle">
+        <button class="theme-btn" id="theme-auto" onclick="setTheme('auto')"><i class="ti ti-clock"></i> Auto</button>
+        <button class="theme-btn" id="theme-light" onclick="setTheme('light')"><i class="ti ti-sun"></i> Claro</button>
+        <button class="theme-btn" id="theme-dark" onclick="setTheme('dark')"><i class="ti ti-moon"></i> Oscuro</button>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:8px" id="theme-hint"></div>
+    </div>
+  </div>
+
+  <div class="section-title">Meta diaria por día de semana</div>
+  <div class="settings-card" id="goals-card"></div>
+
+  <div class="section-title" style="margin-top:12px">Exportar historial</div>
+  <div class="settings-card">
+    <div style="padding:14px">
+      <button class="export-btn" onclick="exportExcel()"><i class="ti ti-file-spreadsheet"></i> Descargar Excel</button>
+      <div style="font-size:11px;color:var(--text3);text-align:center">Dos hojas: detalle de carreras y resumen por día</div>
+    </div>
+  </div>
+
+  <div class="section-title">Comisión Yango</div>
+  <div class="settings-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px">
+      <div><div class="settings-label">Comisión Yango</div><div class="settings-sub">Se descuenta automáticamente de cada carrera</div></div>
+      <div style="font-size:15px;font-weight:700;color:var(--green-text)">15%</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:6px">
+    <button onclick="clearToday()" style="background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 18px;color:var(--text2);font-size:13px;cursor:pointer">Borrar carreras del día activo</button>
+  </div>
+</div>
+
+<!-- MODALES -->
+<div class="overlay" id="saldo-overlay" onclick="closeOv('saldo-overlay',event)">
+  <div class="modal">
+    <h3>Saldo en app Yango</h3>
+    <p>Sube con carreras en tarjeta · baja con comisiones de efectivo</p>
+    <input class="modal-input" type="number" id="saldo-input" placeholder="0.00" min="0">
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeOv('saldo-overlay')">Cancelar</button>
+      <button class="modal-save" onclick="saveSaldo()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="close-overlay" onclick="closeOv('close-overlay',event)">
+  <div class="modal">
+    <h3><i class="ti ti-moon" style="color:var(--amber-text);margin-right:6px"></i>¿Cerrar el día?</h3>
+    <p>Las carreras siguientes irán al día siguiente en el historial.<br>Puedes reabrir el día cuando quieras.</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeOv('close-overlay')">Cancelar</button>
+      <button class="modal-warn" onclick="closeDay()">Cerrar día</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const COMM=0.15;
+const DAYS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
+function load(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+let goals     = load('yango_goals',{0:310,1:310,2:310,3:310,4:310,5:380,6:380});
+let saldo     = load('yango_saldo',0);
+let history   = load('yango_history',{});
+let activeDay = load('yango_active_day',null);
+let dayClosed = load('yango_day_closed',false);
+let themeMode = load('yango_theme','auto');
+
+// ── TEMA ──────────────────────────────────────────────
+const HINTS={auto:'Automático: oscuro de 7pm a 6am, claro de día',light:'Siempre modo claro',dark:'Siempre modo oscuro'};
+function applyTheme(){
+  const dark = themeMode==='dark' ? true : themeMode==='light' ? false : !(new Date().getHours()>=6&&new Date().getHours()<19);
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+}
+function setTheme(t){
+  themeMode=t; save('yango_theme',t); applyTheme();
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('theme-'+t).classList.add('sel');
+  document.getElementById('theme-hint').textContent=HINTS[t];
+}
+setInterval(()=>{if(themeMode==='auto')applyTheme();},60000);
+
+// ── AUDIO ─────────────────────────────────────────────
+let audioCtx=null;
+function playChime(){
+  try{
+    if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    [[880,0,0.07],[1108,0.12,0.05]].forEach(([f,d,v])=>{
+      const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.type='sine'; o.frequency.value=f;
+      const t=audioCtx.currentTime+d;
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(v,t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.45);
+      o.start(t); o.stop(t+0.5);
+    });
+  }catch(e){}
+}
+function vibrate(){if(navigator.vibrate) navigator.vibrate([40,20,40]);}
+
+// ── DATOS ─────────────────────────────────────────────
+function getActiveDay(){return activeDay||new Date().toISOString().slice(0,10)}
+function todayTrips(){return history[getActiveDay()]||[]}
+function saveTodayTrips(t){history[getActiveDay()]=t;save('yango_history',history)}
+function todayGoal(){return goals[new Date(getActiveDay()+'T12:00:00').getDay()]||310}
+function earned(trips){return trips.reduce((s,t)=>s+t.net,0)}
+function totalEarned(){return earned(todayTrips())}
+function totalCash(){return earned(todayTrips().filter(t=>t.type==='cash'))}
+function totalCard(){return earned(todayTrips().filter(t=>t.type==='card'))}
+
+function fmt(n){return 'S/ '+n.toFixed(2)}
+function fmtN(n){return 'S/ '+n.toFixed(0)}
+
+// ── PREVIEW ───────────────────────────────────────────
+function updatePreview(){
+  const v=parseFloat(document.getElementById('fare-input').value)||0;
+  const bc=document.getElementById('btn-cash'),bk=document.getElementById('btn-card');
+  if(v<=0){
+    document.getElementById('preview-text').innerHTML='Ingresa el monto, luego toca Efectivo o Tarjeta';
+    bc.disabled=true;bk.disabled=true;return;
+  }
+  const comm=Math.round(v*COMM*100)/100, net=Math.round((v-comm)*100)/100;
+  document.getElementById('preview-text').innerHTML=
+    `Comisión Yango <b>${fmt(comm)}</b> · te queda <b style="color:var(--green-text)">${fmt(net)}</b>`;
+  bc.disabled=bk.disabled=dayClosed;
+}
+
+// ── AGREGAR CARRERA ───────────────────────────────────
+function addTrip(type,evt){
+  const fare=parseFloat(document.getElementById('fare-input').value)||0;
+  if(fare<=0) return;
+  const comm=Math.round(fare*COMM*100)/100, net=Math.round((fare-comm)*100)/100;
+  const trip={id:Date.now(),fare,comm,net,type,time:new Date().toTimeString().slice(0,5)};
+  const trips=todayTrips(); trips.unshift(trip); saveTodayTrips(trips);
+  saldo = type==='cash' ? Math.max(0,Math.round((saldo-comm)*100)/100) : Math.round((saldo+net)*100)/100;
+  save('yango_saldo',saldo);
+  vibrate(); playChime();
+  document.getElementById('fare-input').value='';
+  updatePreview(); renderHome();
+}
+
+function undoTrip(id){
+  let trips=todayTrips(); const t=trips.find(x=>x.id===id); if(!t) return;
+  saldo = t.type==='cash' ? Math.round((saldo+t.comm)*100)/100 : Math.max(0,Math.round((saldo-t.net)*100)/100);
+  save('yango_saldo',saldo); saveTodayTrips(trips.filter(x=>x.id!==id)); renderHome();
+}
+
+// ── CIERRE ────────────────────────────────────────────
+function closeDay(){
+  dayClosed=true; save('yango_day_closed',true);
+  const d=new Date(getActiveDay()+'T12:00:00'); d.setDate(d.getDate()+1);
+  activeDay=d.toISOString().slice(0,10); save('yango_active_day',activeDay);
+  closeOv('close-overlay'); renderHome();
+}
+function reopenDay(){
+  const d=new Date(getActiveDay()+'T12:00:00'); d.setDate(d.getDate()-1);
+  activeDay=d.toISOString().slice(0,10); save('yango_active_day',activeDay);
+  dayClosed=false; save('yango_day_closed',false); renderHome();
+}
+
+// ── RENDER HOME ───────────────────────────────────────
+function renderHome(){
+  const goal=todayGoal(), e=totalEarned();
+  const rem=Math.max(0,goal-e), pct=Math.min(100,Math.round((e/goal)*100)), done=e>=goal;
+  const ad=getActiveDay(), d=new Date(ad+'T12:00:00');
+  const lbl=`${DAYS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`;
+
+  document.getElementById('closed-banner').style.display=dayClosed?'flex':'none';
+  document.getElementById('close-day-wrap').style.display=dayClosed?'none':'block';
+  document.getElementById('hero-eyebrow').textContent=dayClosed?`resumen del ${lbl}`:`te falta ganar hoy · ${lbl}`;
+  document.getElementById('remaining-num').textContent=rem.toFixed(0);
+  document.getElementById('remaining-display').classList.toggle('done',done);
+  document.getElementById('goal-sub-text').innerHTML=`Meta: <b>${fmtN(goal)}</b> · ${todayTrips().length} carrera${todayTrips().length!==1?'s':''}`;
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('pct-label').textContent=pct+'% completado';
+  document.getElementById('meta-label').textContent='meta '+fmtN(goal);
+  document.getElementById('done-banner').style.display=(done&&!dayClosed)?'flex':'none';
+  document.getElementById('stat-cash').textContent=fmt(totalCash());
+  document.getElementById('stat-card').textContent=fmt(totalCard());
+  document.getElementById('saldo-display').textContent=fmt(saldo);
+  document.getElementById('btn-cash').disabled=document.getElementById('btn-card').disabled=dayClosed;
+
+  const trips=todayTrips();
+  document.getElementById('trips-list').innerHTML=!trips.length
+    ?'<div class="empty-trips"><i class="ti ti-car" style="font-size:28px;display:block;margin-bottom:6px"></i>Aún no registras carreras hoy</div>'
+    :trips.map(t=>`
+      <div class="trip-row t-${t.type}">
+        <div class="trip-icon"><i class="ti ti-${t.type==='cash'?'cash':'credit-card'}"></i></div>
+        <div class="trip-info">
+          <div class="trip-fare-line">${fmt(t.fare)} del pasajero</div>
+          <div class="trip-detail">${t.time} · ${t.type==='cash'?'Efectivo':'Tarjeta'} · comisión ${fmt(t.comm)}</div>
+        </div>
+        <div>
+          <div class="trip-net-val">+${fmt(t.net)}</div>
+          <div class="trip-net-type">${t.type==='card'?'martes':'en mano'}</div>
+        </div>
+        <button class="undo-btn" onclick="undoTrip(${t.id})"><i class="ti ti-arrow-back-up"></i></button>
+      </div>`).join('');
+}
+
+// ── HISTORIAL ─────────────────────────────────────────
+let histTab='week';
+function setHistTab(tab,el){
+  histTab=tab;
+  document.querySelectorAll('.hist-tab').forEach(t=>t.classList.remove('sel'));
+  el.classList.add('sel'); renderHistory();
+}
+
+function summaryFor(keys,label,cls,textCls){
+  const activeDays=keys.filter(k=>(history[k]||[]).length>0);
+  if(!activeDays.length) return '';
+  const total=activeDays.reduce((s,k)=>s+earned(history[k]||[]),0);
+  const metDays=activeDays.filter(k=>{
+    const d=new Date(k+'T12:00:00');
+    return earned(history[k]||[])>=(goals[d.getDay()]||310);
+  }).length;
+  const bestKey=activeDays.reduce((b,k)=>earned(history[k]||[])>earned(history[b]||[])?k:b,activeDays[0]);
+  const bd=new Date(bestKey+'T12:00:00');
+  return `<div class="summary-card ${cls}">
+    <div class="summary-title"><i class="ti ti-chart-line" style="vertical-align:-2px;margin-right:4px"></i>${label}</div>
+    <div class="sum-grid">
+      <div class="wstat"><div class="wstat-label">Total ganado</div><div class="wstat-val ${textCls}">${fmtN(total)}</div></div>
+      <div class="wstat"><div class="wstat-label">Metas cumplidas</div><div class="wstat-val">${metDays} de ${activeDays.length} días</div></div>
+    </div>
+    <div style="margin-top:8px"><div class="wstat"><div class="wstat-label">Mejor día</div><div class="wstat-val">${DAYS[bd.getDay()]} ${bd.getDate()}/${bd.getMonth()+1} · ${fmtN(earned(history[bestKey]||[]))}</div></div></div>
+  </div>`;
+}
+
+function renderHistory(){
+  // Resúmenes siempre visibles en semana, mes en "mes" y "todo"
+  const now=new Date();
+  const weekAgo=new Date(now); weekAgo.setDate(weekAgo.getDate()-7);
+  const monthAgo=new Date(now); monthAgo.setDate(monthAgo.getDate()-30);
+  const allKeys=Object.keys(history).sort().reverse();
+  const weekKeys=allKeys.filter(k=>new Date(k)>=weekAgo);
+  const monthKeys=allKeys.filter(k=>new Date(k)>=monthAgo);
+
+  let summHtml='';
+  if(histTab==='week') summHtml=summaryFor(weekKeys,'Resumen de la semana','week-c','g');
+  if(histTab==='month') summHtml=summaryFor(weekKeys,'Esta semana','week-c','g')+summaryFor(monthKeys,'Este mes','month-c','b');
+  if(histTab==='all') summHtml=summaryFor(weekKeys,'Esta semana','week-c','g')+summaryFor(monthKeys,'Este mes','month-c','b');
+  document.getElementById('summaries-wrap').innerHTML=summHtml;
+
+  // Lista de días
+  let filtered=allKeys.filter(k=>(history[k]||[]).length>0);
+  if(histTab==='week') filtered=filtered.filter(k=>new Date(k)>=weekAgo);
+  if(histTab==='month') filtered=filtered.filter(k=>new Date(k)>=monthAgo);
+
+  const el=document.getElementById('hist-content');
+  if(!filtered.length){el.innerHTML='<div class="empty-trips" style="color:var(--text3);text-align:center;padding:2rem">Sin registros para este período</div>';return;}
+  el.innerHTML=filtered.map(dateKey=>{
+    const d=new Date(dateKey+'T12:00:00');
+    const g=goals[d.getDay()]||310;
+    const trips=history[dateKey]||[];
+    const e=earned(trips), hit=e>=g;
+    const dl=`${DAYS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`;
+    return `<div class="hist-day">
+      <div class="hist-day-header" onclick="this.nextElementSibling.classList.toggle('open')">
+        <div><div class="hist-day-date">${dl}</div><div class="hist-day-meta">${trips.length} carreras · meta ${fmtN(g)}</div></div>
+        <div class="hist-day-net ${hit?'hit':'miss'}" style="font-size:15px;font-weight:600">${fmtN(e)} ${hit?'✓':''}</div>
+      </div>
+      <div class="hist-trips">${trips.map(t=>`
+        <div class="hist-trip-row">
+          <span>${t.time||'--'} · ${t.type==='cash'?'Efectivo':'Tarjeta'} · ${fmt(t.fare)}</span>
+          <span class="hist-trip-net">+${fmt(t.net)}</span>
+        </div>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── EXCEL ─────────────────────────────────────────────
+function exportExcel(){
+  const wb=XLSX.utils.book_new();
+  const rows=[['Fecha','Día','Hora','Tipo','Monto pasajero','Comisión Yango','Neto tuyo']];
+  Object.keys(history).sort().forEach(dk=>{
+    const d=new Date(dk+'T12:00:00');
+    (history[dk]||[]).forEach(t=>rows.push([dk,DAYS[d.getDay()],t.time||'',t.type==='cash'?'Efectivo':'Tarjeta',t.fare,t.comm,t.net]));
+  });
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[{wch:12},{wch:12},{wch:8},{wch:10},{wch:16},{wch:14},{wch:12}];
+  XLSX.utils.book_append_sheet(wb,ws,'Carreras');
+
+  const rows2=[['Fecha','Día','Meta','Total ganado','Meta cumplida','Efectivo','Tarjeta','Carreras']];
+  Object.keys(history).sort().forEach(dk=>{
+    const d=new Date(dk+'T12:00:00'), trips=history[dk]||[];
+    if(!trips.length) return;
+    const g=goals[d.getDay()]||310, e=earned(trips);
+    rows2.push([dk,DAYS[d.getDay()],g,+e.toFixed(2),e>=g?'Sí':'No',
+      +earned(trips.filter(t=>t.type==='cash')).toFixed(2),
+      +earned(trips.filter(t=>t.type==='card')).toFixed(2),trips.length]);
+  });
+  const ws2=XLSX.utils.aoa_to_sheet(rows2);
+  ws2['!cols']=[{wch:12},{wch:12},{wch:8},{wch:14},{wch:14},{wch:12},{wch:12},{wch:10}];
+  XLSX.utils.book_append_sheet(wb,ws2,'Resumen por día');
+
+  XLSX.writeFile(wb,`yango-${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+// ── SETTINGS ──────────────────────────────────────────
+function renderSettings(){
+  document.getElementById('goals-card').innerHTML=DAYS.map((day,i)=>`
+    <div class="settings-row">
+      <div class="settings-label">${day}</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px;color:var(--text3)">S/</span>
+        <input class="goal-input-s" type="number" value="${goals[i]||310}" min="1"
+          onchange="goals[${i}]=parseInt(this.value)||310;save('yango_goals',goals);renderHome()">
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('theme-'+themeMode).classList.add('sel');
+  document.getElementById('theme-hint').textContent=HINTS[themeMode];
+}
+
+function clearToday(){if(!confirm('¿Borrar todas las carreras del día activo?'))return;saveTodayTrips([]);renderHome();}
+
+// ── MODALES ───────────────────────────────────────────
+function openSaldoModal(){document.getElementById('saldo-input').value=saldo||'';document.getElementById('saldo-overlay').classList.add('open');}
+function saveSaldo(){saldo=Math.round((parseFloat(document.getElementById('saldo-input').value)||0)*100)/100;save('yango_saldo',saldo);closeOv('saldo-overlay');renderHome();}
+function closeOv(id,e){if(!e||e.target===document.getElementById(id))document.getElementById(id).classList.remove('open');}
+
+function goView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active'); btn.classList.add('active');
+  if(id==='history') renderHistory();
+  if(id==='settings') renderSettings();
+}
+
+// ── INIT ──────────────────────────────────────────────
+applyTheme(); renderHome(); renderSettings();
+</script>
+</body>
+</html>

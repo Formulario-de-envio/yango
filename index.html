@@ -13,6 +13,8 @@
   --blue:#1060a8;--blue-bg:#e6f0fa;--blue-text:#1060a8;
   --text:#111110;--text2:#555550;--text3:#888880;
   --red:#c02020;--amber:#a06000;--amber-bg:#fff5e0;--amber-text:#a06000;
+  --purple:#6b3fa0;--purple-bg:#f3eeff;--purple-text:#6b3fa0;
+  --orange:#c45000;--orange-bg:#fff0e6;--orange-text:#c45000;
   --radius:10px;--radius-sm:7px;--shadow:0 1px 4px rgba(0,0,0,.09);--input-bg:#f8f8f4;
 }
 [data-theme="dark"]{
@@ -21,6 +23,8 @@
   --blue:#4a9eff;--blue-bg:#0a1a2e;--blue-text:#4a9eff;
   --text:#f0f2f8;--text2:#8a90a8;--text3:#4a5070;
   --red:#ff5252;--amber:#f59e0b;--amber-bg:#1a1200;--amber-text:#f59e0b;
+  --purple:#b48aff;--purple-bg:#1a0f2e;--purple-text:#b48aff;
+  --orange:#ff8c42;--orange-bg:#1a0f00;--orange-text:#ff8c42;
   --shadow:none;--input-bg:#0f1117;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .25s,color .25s}
@@ -30,11 +34,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .nav-btn.active{color:var(--green)}
 .view{display:none;padding:1rem;max-width:420px;margin:0 auto;padding-bottom:3rem}
 .view.active{display:block}
+
+/* CLOSED BANNER */
 .closed-banner{background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .closed-banner-left{display:flex;align-items:center;gap:8px}
 .closed-banner-title{font-size:13px;font-weight:600;color:var(--amber-text)}
 .closed-banner-sub{font-size:11px;color:var(--text2);margin-top:2px}
 .reopen-btn{background:none;border:1px solid var(--amber);border-radius:var(--radius-sm);padding:6px 12px;font-size:12px;color:var(--amber-text);cursor:pointer;white-space:nowrap}
+
+/* HERO */
 .goal-hero{background:var(--surface);border-radius:14px;padding:1.25rem 1.25rem 1rem;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
 .goal-eyebrow{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .goal-remaining{font-size:56px;font-weight:700;line-height:1;letter-spacing:-2px;color:var(--text);transition:color .4s}
@@ -56,7 +64,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .saldo-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;cursor:pointer;box-shadow:var(--shadow)}
 .saldo-label{font-size:11px;color:var(--text3);margin-bottom:3px}
 .saldo-val{font-size:17px;font-weight:600;color:var(--text)}
-.saldo-hint{font-size:11px;color:var(--text3)}
+
+/* ADD TRIP */
 .add-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 .section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
 .fare-input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0 14px;height:52px;font-size:22px;font-weight:700;color:var(--text);outline:none;margin-bottom:10px}
@@ -64,6 +73,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .fare-input::placeholder{color:var(--text3);font-weight:400;font-size:16px}
 .preview{font-size:13px;color:var(--text2);margin-bottom:10px;min-height:18px;line-height:1.5}
 .preview b{color:var(--text)}
+
+/* TIPO DE VIAJE */
+.trip-type-row{display:flex;gap:6px;margin-bottom:10px;align-items:center}
+.trip-type-label{font-size:11px;color:var(--text3);white-space:nowrap}
+.type-chips{display:flex;gap:5px;flex-wrap:wrap}
+.type-chip{padding:5px 10px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text2);transition:all .15s;white-space:nowrap}
+.type-chip.sel-yango{background:var(--green-bg);color:var(--green-text);border-color:var(--green-dim)}
+.type-chip.sel-corp{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue)}
+.type-chip.sel-dest{background:var(--orange-bg);color:var(--orange-text);border-color:var(--orange)}
+.type-chip.sel-indrive{background:var(--purple-bg);color:var(--purple-text);border-color:var(--purple)}
+
+/* BOTONES ACCIÓN */
 .action-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .act-btn{height:52px;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s,transform .1s;position:relative;overflow:hidden}
 .act-btn:disabled{opacity:.3;cursor:not-allowed}
@@ -72,23 +93,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .act-cash{background:var(--green);color:#fff}
 .act-card{background:var(--blue-bg);color:var(--blue-text);border:1px solid var(--border)}
 [data-theme="dark"] .act-card{background:#1a3a5c;border-color:#2a4a6c}
+
+/* TRIPS */
 .trips-list{display:flex;flex-direction:column;gap:6px}
-.trip-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:11px 12px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
-.trip-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.t-cash .trip-icon{background:var(--green-bg);color:var(--green-text)}
-.t-card .trip-icon{background:var(--blue-bg);color:var(--blue-text)}
+.trip-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:9px;box-shadow:var(--shadow)}
+.trip-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
 .trip-info{flex:1;min-width:0}
 .trip-fare-line{font-size:14px;font-weight:600;color:var(--text)}
 .trip-detail{font-size:11px;color:var(--text2);margin-top:2px}
 .trip-net-val{font-size:14px;font-weight:600;color:var(--green-text)}
 .trip-net-type{font-size:10px;color:var(--text3);margin-top:1px;text-align:right}
-.undo-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:14px;color:var(--text3);cursor:pointer;margin-left:4px;flex-shrink:0}
+.undo-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:14px;color:var(--text3);cursor:pointer;margin-left:2px;flex-shrink:0}
 .undo-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* COLORES TIPO */
+.tt-yango .trip-icon{background:var(--green-bg);color:var(--green-text)}
+.tt-corp .trip-icon{background:var(--blue-bg);color:var(--blue-text)}
+.tt-dest .trip-icon{background:var(--orange-bg);color:var(--orange-text)}
+.tt-indrive .trip-icon{background:var(--purple-bg);color:var(--purple-text)}
+
 .empty-trips{text-align:center;padding:2rem 1rem;color:var(--text3);font-size:14px}
 .close-day-wrap{margin-top:20px;text-align:center}
 .close-day-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 20px;color:var(--text2);font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .close-day-btn:hover{border-color:var(--amber);color:var(--amber-text)}
 .close-day-hint{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* HISTORY */
 .hist-nav{display:flex;gap:6px;margin-bottom:14px}
 .hist-tab{flex:1;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--text2);text-align:center;cursor:pointer}
 .hist-tab.sel{background:var(--green);color:#fff;border-color:transparent}
@@ -102,8 +132,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .wstat{background:var(--surface);border-radius:var(--radius-sm);padding:10px 12px;border:1px solid var(--border)}
 .wstat-label{font-size:10px;color:var(--text3);margin-bottom:3px}
 .wstat-val{font-size:16px;font-weight:700;color:var(--text)}
-.wstat-val.g{color:var(--green-text)}
-.wstat-val.b{color:var(--blue-text)}
+.wstat-val.g{color:var(--green-text)}.wstat-val.b{color:var(--blue-text)}
 .hist-day{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow)}
 .hist-day-header{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
 .hist-day-date{font-size:13px;font-weight:600;color:var(--text)}
@@ -115,6 +144,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .hist-trip-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2)}
 .hist-trip-row:last-child{border-bottom:none}
 .hist-trip-net{color:var(--green-text);font-weight:500}
+.type-badge{font-size:10px;padding:1px 6px;border-radius:99px;font-weight:500}
+.badge-yango{background:var(--green-bg);color:var(--green-text)}
+.badge-corp{background:var(--blue-bg);color:var(--blue-text)}
+.badge-dest{background:var(--orange-bg);color:var(--orange-text)}
+.badge-indrive{background:var(--purple-bg);color:var(--purple-text)}
+
+/* SETTINGS */
 .settings-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow)}
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid var(--border)}
 .settings-row:last-child{border-bottom:none}
@@ -127,18 +163,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .theme-btn{flex:1;padding:8px;background:none;border:none;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
 .theme-btn.sel{background:var(--surface);color:var(--text);font-weight:600;border-radius:var(--radius-sm);box-shadow:var(--shadow)}
 
-/* SELECTOR DE DÍA */
+/* DAY SELECTOR */
 .day-selector-card{background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--radius);padding:14px;margin-bottom:14px}
 .day-selector-title{font-size:12px;font-weight:700;color:var(--amber-text);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .day-selector-sub{font-size:11px;color:var(--text2);margin-bottom:12px}
 .day-pills-wrap{display:flex;gap:6px;flex-wrap:wrap}
 .day-pill{padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:99px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;line-height:1.3}
-.day-pill:hover{border-color:var(--amber);color:var(--amber-text)}
 .day-pill.sel{background:var(--amber);color:#fff;border-color:transparent;font-weight:700}
 .day-pill.is-today:not(.sel){border-color:var(--green);color:var(--green-text)}
-.day-pill-dot{font-size:9px;color:var(--green-text)}
 .day-status-line{font-size:11px;color:var(--text2);margin-top:10px;display:flex;align-items:center;gap:5px}
 
+/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:16px 16px 0 0;padding:1.5rem;width:100%;max-width:420px}
@@ -168,8 +203,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="closed-banner-left">
       <i class="ti ti-moon" style="color:var(--amber-text);font-size:18px"></i>
       <div>
-        <div class="closed-banner-title">Día cerrado</div>
-        <div class="closed-banner-sub">Las nuevas carreras van al siguiente día</div>
+        <div class="closed-banner-title" id="closed-banner-title">Día cerrado</div>
+        <div class="closed-banner-sub" id="closed-banner-sub">Las nuevas carreras van al siguiente día</div>
       </div>
     </div>
     <button class="reopen-btn" onclick="reopenDay()"><i class="ti ti-arrow-back-up"></i> Reabrir</button>
@@ -191,11 +226,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
   <div class="saldo-row" onclick="openSaldoModal()">
     <div><div class="saldo-label">Saldo en app Yango</div><div class="saldo-val" id="saldo-display">S/ 0.00</div></div>
-    <div style="display:flex;align-items:center;gap:6px"><span class="saldo-hint">toca para editar</span><i class="ti ti-edit" style="color:var(--text3);font-size:18px"></i></div>
+    <div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:var(--text3)">toca para editar</span><i class="ti ti-edit" style="color:var(--text3);font-size:18px"></i></div>
   </div>
-  <div class="add-card">
+  <div class="add-card" id="add-card">
     <div class="section-title">Registrar carrera</div>
     <input class="fare-input" type="number" id="fare-input" placeholder="S/ monto del pasajero" min="1" oninput="updatePreview()">
+
+    <!-- TIPO DE VIAJE -->
+    <div class="trip-type-row">
+      <span class="trip-type-label">Tipo:</span>
+      <div class="type-chips">
+        <button class="type-chip sel-yango" id="chip-yango" onclick="setTripType('yango')">🟢 Yango</button>
+        <button class="type-chip" id="chip-corp" onclick="setTripType('corp')">🔵 Corporativo</button>
+        <button class="type-chip" id="chip-dest" onclick="setTripType('dest')">🟠 Destino</button>
+        <button class="type-chip" id="chip-indrive" onclick="setTripType('indrive')">🟣 InDrive</button>
+      </div>
+    </div>
+
     <div class="preview" id="preview-text">Ingresa el monto, luego toca Efectivo o Tarjeta</div>
     <div class="action-btns">
       <button class="act-btn act-cash" id="btn-cash" onclick="addTrip('cash',event)" disabled><i class="ti ti-cash"></i> Efectivo</button>
@@ -227,7 +274,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <!-- SETTINGS -->
 <div class="view" id="view-settings">
   <div style="height:12px"></div>
-
   <div class="section-title">Día de trabajo activo</div>
   <div class="day-selector-card">
     <div class="day-selector-title"><i class="ti ti-calendar-event"></i> Cambiar día activo</div>
@@ -235,7 +281,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="day-pills-wrap" id="day-pills"></div>
     <div class="day-status-line" id="day-status"></div>
   </div>
-
   <div class="section-title">Apariencia</div>
   <div class="settings-card">
     <div style="padding:14px">
@@ -248,26 +293,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div style="font-size:11px;color:var(--text3);margin-top:8px" id="theme-hint"></div>
     </div>
   </div>
-
   <div class="section-title">Meta diaria por día de semana</div>
   <div class="settings-card" id="goals-card"></div>
-
-  <div class="section-title" style="margin-top:12px">Exportar historial</div>
+  <div class="section-title" style="margin-top:12px">Comisiones por tipo de viaje</div>
+  <div class="settings-card">
+    <div class="settings-row"><div><div class="settings-label">🟢 Yango normal</div></div><div style="font-size:14px;font-weight:700;color:var(--green-text)">15%</div></div>
+    <div class="settings-row"><div><div class="settings-label">🔵 Corporativo</div></div><div style="font-size:14px;font-weight:700;color:var(--blue-text)">1%</div></div>
+    <div class="settings-row"><div><div class="settings-label">🟠 Destino</div></div><div style="font-size:14px;font-weight:700;color:var(--orange-text)">20%</div></div>
+    <div class="settings-row"><div><div class="settings-label">🟣 InDrive</div></div><div style="font-size:14px;font-weight:700;color:var(--purple-text)">12.83%</div></div>
+  </div>
+  <div class="section-title">Exportar historial</div>
   <div class="settings-card">
     <div style="padding:14px">
       <button class="export-btn" onclick="exportExcel()"><i class="ti ti-file-spreadsheet"></i> Descargar Excel</button>
-      <div style="font-size:11px;color:var(--text3);text-align:center">Dos hojas: detalle de carreras y resumen por día</div>
+      <div style="font-size:11px;color:var(--text3);text-align:center">Incluye tipo de viaje y comisión en cada carrera</div>
     </div>
   </div>
-
-  <div class="section-title">Comisión Yango</div>
-  <div class="settings-card">
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px">
-      <div><div class="settings-label">Comisión Yango</div><div class="settings-sub">Se descuenta automáticamente de cada carrera</div></div>
-      <div style="font-size:15px;font-weight:700;color:var(--green-text)">15%</div>
-    </div>
-  </div>
-
   <div style="text-align:center;margin-top:6px">
     <button onclick="clearToday()" style="background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 18px;color:var(--text2);font-size:13px;cursor:pointer">Borrar carreras del día activo</button>
   </div>
@@ -285,11 +326,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
 </div>
-
 <div class="overlay" id="close-overlay" onclick="closeOv('close-overlay',event)">
   <div class="modal">
     <h3><i class="ti ti-moon" style="color:var(--amber-text);margin-right:6px"></i>¿Cerrar el día?</h3>
-    <p>Las carreras siguientes irán al día siguiente en el historial.<br>Puedes reabrir el día cuando quieras.</p>
+    <p>Las carreras siguientes irán al día siguiente en el historial.<br>Puedes reabrir el día cuando quieras desde Ajustes o desde el banner de arriba.</p>
     <div class="modal-btns">
       <button class="modal-cancel" onclick="closeOv('close-overlay')">Cancelar</button>
       <button class="modal-warn" onclick="closeDay()">Cerrar día</button>
@@ -299,19 +339,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-const COMM=0.15;
+const COMM_RATES={yango:0.15,corp:0.01,dest:0.20,indrive:0.1283};
+const TYPE_LABELS={yango:'🟢 Yango',corp:'🔵 Corporativo',dest:'🟠 Destino',indrive:'🟣 InDrive'};
+const TYPE_BADGE={yango:'badge-yango',corp:'badge-corp',dest:'badge-dest',indrive:'badge-indrive'};
+const TYPE_ICON={yango:'ti-car',corp:'ti-briefcase',dest:'ti-map-pin',indrive:'ti-motorbike'};
 const DAYS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const MONTHS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
 function load(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 
-let goals     = load('yango_goals',{0:310,1:310,2:310,3:310,4:310,5:380,6:380});
-let saldo     = load('yango_saldo',0);
-let history   = load('yango_history',{});
-let activeDay = load('yango_active_day',null);
-let dayClosed = load('yango_day_closed',false);
-let themeMode = load('yango_theme','auto');
+let goals      = load('yango_goals',{0:310,1:310,2:310,3:310,4:310,5:380,6:380});
+let saldo      = load('yango_saldo',0);
+let history    = load('yango_history',{});
+let activeDay  = load('yango_active_day',null);
+// closedDays: objeto {fecha: true/false} para manejar cierre por día individual
+let closedDays = load('yango_closed_days',{});
+// Legacy: migrar yango_day_closed antiguo
+(function(){
+  const old=load('yango_day_closed',null);
+  if(old===true&&activeDay){closedDays[activeDay]=true;save('yango_closed_days',closedDays);localStorage.removeItem('yango_day_closed');}
+})();
+let themeMode  = load('yango_theme','auto');
+let tripType   = 'yango';
 
 // TEMA
 const HINTS={auto:'Automático: oscuro de 7pm a 6am, claro de día',light:'Siempre modo claro',dark:'Siempre modo oscuro'};
@@ -341,131 +391,156 @@ function vibrate(){if(navigator.vibrate)navigator.vibrate([40,20,40]);}
 // DATOS
 function calendarToday(){return new Date().toISOString().slice(0,10)}
 function getActiveDay(){return activeDay||calendarToday()}
+function isDayClosed(day){return !!closedDays[day||getActiveDay()]}
 function todayTrips(){return history[getActiveDay()]||[]}
 function saveTodayTrips(t){history[getActiveDay()]=t;save('yango_history',history)}
 function todayGoal(){return goals[new Date(getActiveDay()+'T12:00:00').getDay()]||310}
 function earned(trips){return trips.reduce((s,t)=>s+t.net,0)}
 function totalEarned(){return earned(todayTrips())}
-function totalCash(){return earned(todayTrips().filter(t=>t.type==='cash'))}
-function totalCard(){return earned(todayTrips().filter(t=>t.type==='card'))}
+function totalCash(){return earned(todayTrips().filter(t=>t.pay==='cash'))}
+function totalCard(){return earned(todayTrips().filter(t=>t.pay==='card'))}
 function fmt(n){return 'S/ '+n.toFixed(2)}
 function fmtN(n){return 'S/ '+n.toFixed(0)}
 
-// SELECTOR DE DÍA — muestra 7 días atrás + hoy + mañana
-function renderDayPills(){
-  const today=calendarToday();
-  const active=getActiveDay();
-  const pills=[];
-  for(let i=7;i>=-1;i--){
-    const d=new Date(today+'T12:00:00');
-    d.setDate(d.getDate()-i);
-    const key=d.toISOString().slice(0,10);
-    pills.push({
-      key,
-      label:DAYS[d.getDay()],
-      date:`${d.getDate()} ${MONTHS[d.getMonth()]}`,
-      isToday:key===today,
-      isSel:key===active,
-      hasTrips:(history[key]||[]).length>0
-    });
-  }
-  document.getElementById('day-pills').innerHTML=pills.map(p=>`
-    <button class="day-pill${p.isSel?' sel':''}${p.isToday&&!p.isSel?' is-today':''}" onclick="setActiveDay('${p.key}')">
-      ${p.label}<br>
-      <span style="font-size:10px;opacity:.75">${p.date}</span>
-      ${p.hasTrips?'<br><span style="font-size:10px;color:var(--green-text)">✓</span>':''}
-    </button>`).join('');
-
-  const ad=getActiveDay();
-  const d=new Date(ad+'T12:00:00');
-  const nTrips=(history[ad]||[]).length;
-  const tag=ad===today?'hoy':ad>today?'mañana':'día pasado';
-  document.getElementById('day-status').innerHTML=
-    `<i class="ti ti-info-circle" style="color:var(--amber-text)"></i>
-     Activo: <b>${DAYS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</b> (${tag}) · ${nTrips} carrera${nTrips!==1?'s':''}${dayClosed?' · <span style="color:var(--amber-text)">cerrado</span>':''}`;
-}
-
-function setActiveDay(key){
-  activeDay=key;
-  save('yango_active_day',activeDay);
-  // Al seleccionar manualmente un día pasado o hoy, reabrimos el cierre
-  const today=calendarToday();
-  if(key<=today){dayClosed=false;save('yango_day_closed',false);}
-  renderDayPills();
-  renderHome();
+// TIPO DE VIAJE
+function setTripType(t){
+  tripType=t;
+  ['yango','corp','dest','indrive'].forEach(x=>{
+    const c=document.getElementById('chip-'+x);
+    c.className='type-chip'+(t===x?' sel-'+x:'');
+  });
+  updatePreview();
 }
 
 // PREVIEW
 function updatePreview(){
   const v=parseFloat(document.getElementById('fare-input').value)||0;
   const bc=document.getElementById('btn-cash'),bk=document.getElementById('btn-card');
+  const closed=isDayClosed();
   if(v<=0){document.getElementById('preview-text').innerHTML='Ingresa el monto, luego toca Efectivo o Tarjeta';bc.disabled=true;bk.disabled=true;return;}
-  const comm=Math.round(v*COMM*100)/100,net=Math.round((v-comm)*100)/100;
-  document.getElementById('preview-text').innerHTML=`Comisión Yango <b>${fmt(comm)}</b> · te queda <b style="color:var(--green-text)">${fmt(net)}</b>`;
-  bc.disabled=bk.disabled=dayClosed;
+  const rate=COMM_RATES[tripType];
+  const comm=Math.round(v*rate*100)/100,net=Math.round((v-comm)*100)/100;
+  const pct=Math.round(rate*10000)/100;
+  document.getElementById('preview-text').innerHTML=
+    `${TYPE_LABELS[tripType]} · comisión ${pct}% = <b>${fmt(comm)}</b> · te queda <b style="color:var(--green-text)">${fmt(net)}</b>`;
+  bc.disabled=bk.disabled=closed;
 }
 
 // AGREGAR CARRERA
-function addTrip(type,evt){
+function addTrip(pay,evt){
   const fare=parseFloat(document.getElementById('fare-input').value)||0;
   if(fare<=0)return;
-  const comm=Math.round(fare*COMM*100)/100,net=Math.round((fare-comm)*100)/100;
-  const trip={id:Date.now(),fare,comm,net,type,time:new Date().toTimeString().slice(0,5)};
+  const rate=COMM_RATES[tripType];
+  const comm=Math.round(fare*rate*100)/100,net=Math.round((fare-comm)*100)/100;
+  const trip={id:Date.now(),fare,comm,net,pay,type:tripType,time:new Date().toTimeString().slice(0,5)};
   const trips=todayTrips();trips.unshift(trip);saveTodayTrips(trips);
-  saldo=type==='cash'?Math.max(0,Math.round((saldo-comm)*100)/100):Math.round((saldo+net)*100)/100;
-  save('yango_saldo',saldo);
+  // saldo: solo Yango y Destino afectan saldo (son de la plataforma Yango)
+  if(tripType==='yango'||tripType==='dest'){
+    saldo=pay==='cash'?Math.max(0,Math.round((saldo-comm)*100)/100):Math.round((saldo+net)*100)/100;
+    save('yango_saldo',saldo);
+  }
   vibrate();playChime();
   document.getElementById('fare-input').value='';
   updatePreview();renderHome();
 }
 function undoTrip(id){
   let trips=todayTrips();const t=trips.find(x=>x.id===id);if(!t)return;
-  saldo=t.type==='cash'?Math.round((saldo+t.comm)*100)/100:Math.max(0,Math.round((saldo-t.net)*100)/100);
-  save('yango_saldo',saldo);saveTodayTrips(trips.filter(x=>x.id!==id));renderHome();
+  if(t.type==='yango'||t.type==='dest'){
+    saldo=t.pay==='cash'?Math.round((saldo+t.comm)*100)/100:Math.max(0,Math.round((saldo-t.net)*100)/100);
+    save('yango_saldo',saldo);
+  }
+  saveTodayTrips(trips.filter(x=>x.id!==id));renderHome();
 }
 
-// CIERRE
+// CIERRE — ahora por día individual
 function closeDay(){
-  dayClosed=true;save('yango_day_closed',true);
-  const d=new Date(getActiveDay()+'T12:00:00');d.setDate(d.getDate()+1);
+  const ad=getActiveDay();
+  closedDays[ad]=true;save('yango_closed_days',closedDays);
+  // avanzar al día siguiente
+  const d=new Date(ad+'T12:00:00');d.setDate(d.getDate()+1);
   activeDay=d.toISOString().slice(0,10);save('yango_active_day',activeDay);
   closeOv('close-overlay');renderHome();
 }
 function reopenDay(){
-  const d=new Date(getActiveDay()+'T12:00:00');d.setDate(d.getDate()-1);
-  activeDay=d.toISOString().slice(0,10);save('yango_active_day',activeDay);
-  dayClosed=false;save('yango_day_closed',false);renderHome();
+  // reabrir el día activo actual (que es el "cerrado" que se muestra)
+  const ad=getActiveDay();
+  closedDays[ad]=false;save('yango_closed_days',closedDays);
+  renderHome();
 }
 
 // RENDER HOME
 function renderHome(){
+  const ad=getActiveDay();
+  const closed=isDayClosed(ad);
   const goal=todayGoal(),e=totalEarned();
   const rem=Math.max(0,goal-e),pct=Math.min(100,Math.round((e/goal)*100)),done=e>=goal;
-  const ad=getActiveDay(),d=new Date(ad+'T12:00:00');
+  const d=new Date(ad+'T12:00:00');
   const lbl=`${DAYS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`;
-  document.getElementById('closed-banner').style.display=dayClosed?'flex':'none';
-  document.getElementById('close-day-wrap').style.display=dayClosed?'none':'block';
-  document.getElementById('hero-eyebrow').textContent=dayClosed?`resumen del ${lbl}`:`te falta ganar hoy · ${lbl}`;
+  const today=calendarToday();
+
+  // Banner cerrado — aparece si el día activo está cerrado
+  const banner=document.getElementById('closed-banner');
+  banner.style.display=closed?'flex':'none';
+  if(closed){
+    document.getElementById('closed-banner-title').textContent=`${lbl} — cerrado`;
+    document.getElementById('closed-banner-sub').textContent=ad<today?'Puedes reabrir para modificar carreras':'Las nuevas carreras van al siguiente día';
+  }
+  document.getElementById('close-day-wrap').style.display=closed?'none':'block';
+  document.getElementById('hero-eyebrow').textContent=closed?`resumen del ${lbl}`:`te falta ganar hoy · ${lbl}`;
   document.getElementById('remaining-num').textContent=rem.toFixed(0);
   document.getElementById('remaining-display').classList.toggle('done',done);
   document.getElementById('goal-sub-text').innerHTML=`Meta: <b>${fmtN(goal)}</b> · ${todayTrips().length} carrera${todayTrips().length!==1?'s':''}`;
   document.getElementById('progress-fill').style.width=pct+'%';
   document.getElementById('pct-label').textContent=pct+'% completado';
   document.getElementById('meta-label').textContent='meta '+fmtN(goal);
-  document.getElementById('done-banner').style.display=(done&&!dayClosed)?'flex':'none';
+  document.getElementById('done-banner').style.display=(done&&!closed)?'flex':'none';
   document.getElementById('stat-cash').textContent=fmt(totalCash());
   document.getElementById('stat-card').textContent=fmt(totalCard());
   document.getElementById('saldo-display').textContent=fmt(saldo);
-  document.getElementById('btn-cash').disabled=document.getElementById('btn-card').disabled=dayClosed;
+  document.getElementById('btn-cash').disabled=document.getElementById('btn-card').disabled=closed;
+
   const trips=todayTrips();
   document.getElementById('trips-list').innerHTML=!trips.length
     ?'<div class="empty-trips"><i class="ti ti-car" style="font-size:28px;display:block;margin-bottom:6px"></i>Aún no registras carreras hoy</div>'
-    :trips.map(t=>`<div class="trip-row t-${t.type}">
-      <div class="trip-icon"><i class="ti ti-${t.type==='cash'?'cash':'credit-card'}"></i></div>
-      <div class="trip-info"><div class="trip-fare-line">${fmt(t.fare)} del pasajero</div><div class="trip-detail">${t.time} · ${t.type==='cash'?'Efectivo':'Tarjeta'} · comisión ${fmt(t.comm)}</div></div>
-      <div><div class="trip-net-val">+${fmt(t.net)}</div><div class="trip-net-type">${t.type==='card'?'martes':'en mano'}</div></div>
+    :trips.map(t=>`<div class="trip-row tt-${t.type||'yango'}">
+      <div class="trip-icon"><i class="ti ${TYPE_ICON[t.type||'yango']}"></i></div>
+      <div class="trip-info">
+        <div class="trip-fare-line">${fmt(t.fare)} del pasajero <span class="type-badge ${TYPE_BADGE[t.type||'yango']}">${TYPE_LABELS[t.type||'yango']}</span></div>
+        <div class="trip-detail">${t.time} · ${t.pay==='cash'?'Efectivo':'Tarjeta'} · comisión ${fmt(t.comm)}</div>
+      </div>
+      <div><div class="trip-net-val">+${fmt(t.net)}</div><div class="trip-net-type">${t.pay==='card'?'martes':'en mano'}</div></div>
       <button class="undo-btn" onclick="undoTrip(${t.id})"><i class="ti ti-arrow-back-up"></i></button>
     </div>`).join('');
+}
+
+// DAY PILLS
+function renderDayPills(){
+  const today=calendarToday();
+  const active=getActiveDay();
+  const pills=[];
+  for(let i=7;i>=-1;i--){
+    const d=new Date(today+'T12:00:00');d.setDate(d.getDate()-i);
+    const key=d.toISOString().slice(0,10);
+    pills.push({key,label:DAYS[d.getDay()],date:`${d.getDate()} ${MONTHS[d.getMonth()]}`,isToday:key===today,isSel:key===active,hasTrips:(history[key]||[]).length>0,isClosed:isDayClosed(key)});
+  }
+  document.getElementById('day-pills').innerHTML=pills.map(p=>`
+    <button class="day-pill${p.isSel?' sel':''}${p.isToday&&!p.isSel?' is-today':''}" onclick="setActiveDay('${p.key}')">
+      ${p.label}<br><span style="font-size:10px;opacity:.75">${p.date}</span>
+      ${p.hasTrips?'<br><span style="font-size:10px;color:var(--green-text)">✓</span>':''}
+      ${p.isClosed?'<br><span style="font-size:10px;color:var(--amber-text)">🔒</span>':''}
+    </button>`).join('');
+  const ad=getActiveDay();
+  const d=new Date(ad+'T12:00:00');
+  const nTrips=(history[ad]||[]).length;
+  const tag=ad===today?'hoy':ad>today?'mañana':'día pasado';
+  document.getElementById('day-status').innerHTML=
+    `<i class="ti ti-info-circle" style="color:var(--amber-text)"></i>
+     Activo: <b>${DAYS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</b> (${tag}) · ${nTrips} carreras${isDayClosed(ad)?' · <span style="color:var(--amber-text)">🔒 cerrado</span>':''}`;
+}
+
+function setActiveDay(key){
+  activeDay=key;save('yango_active_day',activeDay);
+  renderDayPills();renderHome();
 }
 
 // HISTORIAL
@@ -497,13 +572,16 @@ function renderHistory(){
   const el=document.getElementById('hist-content');
   if(!filtered.length){el.innerHTML='<div class="empty-trips" style="color:var(--text3);text-align:center;padding:2rem">Sin registros para este período</div>';return;}
   el.innerHTML=filtered.map(dk=>{
-    const d=new Date(dk+'T12:00:00'),g=goals[d.getDay()]||310,trips=history[dk]||[],e=earned(trips),hit=e>=g;
+    const d=new Date(dk+'T12:00:00'),g=goals[d.getDay()]||310,trips=history[dk]||[],e=earned(trips),hit=e>=g,closed=isDayClosed(dk);
     return`<div class="hist-day">
       <div class="hist-day-header" onclick="this.nextElementSibling.classList.toggle('open')">
-        <div><div class="hist-day-date">${DAYS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</div><div class="hist-day-meta">${trips.length} carreras · meta ${fmtN(g)}</div></div>
+        <div><div class="hist-day-date">${DAYS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}${closed?' 🔒':''}</div><div class="hist-day-meta">${trips.length} carreras · meta ${fmtN(g)}</div></div>
         <div class="hist-day-net ${hit?'hit':'miss'}" style="font-size:15px;font-weight:600">${fmtN(e)} ${hit?'✓':''}</div>
       </div>
-      <div class="hist-trips">${trips.map(t=>`<div class="hist-trip-row"><span>${t.time||'--'} · ${t.type==='cash'?'Efectivo':'Tarjeta'} · ${fmt(t.fare)}</span><span class="hist-trip-net">+${fmt(t.net)}</span></div>`).join('')}</div>
+      <div class="hist-trips">${trips.map(t=>`<div class="hist-trip-row">
+        <span>${t.time||'--'} · <span class="type-badge ${TYPE_BADGE[t.type||'yango']}">${TYPE_LABELS[t.type||'yango']}</span> · ${t.pay==='cash'?'Efectivo':'Tarjeta'} · ${fmt(t.fare)}</span>
+        <span class="hist-trip-net">+${fmt(t.net)}</span>
+      </div>`).join('')}</div>
     </div>`;
   }).join('');
 }
@@ -511,12 +589,19 @@ function renderHistory(){
 // EXCEL
 function exportExcel(){
   const wb=XLSX.utils.book_new();
-  const r1=[['Fecha','Día','Hora','Tipo','Monto pasajero','Comisión Yango','Neto tuyo']];
-  Object.keys(history).sort().forEach(dk=>{const d=new Date(dk+'T12:00:00');(history[dk]||[]).forEach(t=>r1.push([dk,DAYS[d.getDay()],t.time||'',t.type==='cash'?'Efectivo':'Tarjeta',t.fare,t.comm,t.net]));});
-  const ws1=XLSX.utils.aoa_to_sheet(r1);ws1['!cols']=[{wch:12},{wch:12},{wch:8},{wch:10},{wch:16},{wch:14},{wch:12}];
+  const r1=[['Fecha','Día','Hora','Tipo viaje','Pago','Monto pasajero','Comisión','Neto tuyo']];
+  Object.keys(history).sort().forEach(dk=>{
+    const d=new Date(dk+'T12:00:00');
+    (history[dk]||[]).forEach(t=>r1.push([dk,DAYS[d.getDay()],t.time||'',TYPE_LABELS[t.type||'yango'],t.pay==='cash'?'Efectivo':'Tarjeta',t.fare,t.comm,t.net]));
+  });
+  const ws1=XLSX.utils.aoa_to_sheet(r1);ws1['!cols']=[{wch:12},{wch:12},{wch:8},{wch:14},{wch:10},{wch:16},{wch:12},{wch:12}];
   XLSX.utils.book_append_sheet(wb,ws1,'Carreras');
   const r2=[['Fecha','Día','Meta','Total ganado','Meta cumplida','Efectivo','Tarjeta','Carreras']];
-  Object.keys(history).sort().forEach(dk=>{const d=new Date(dk+'T12:00:00'),trips=history[dk]||[];if(!trips.length)return;const g=goals[d.getDay()]||310,e=earned(trips);r2.push([dk,DAYS[d.getDay()],g,+e.toFixed(2),e>=g?'Sí':'No',+earned(trips.filter(t=>t.type==='cash')).toFixed(2),+earned(trips.filter(t=>t.type==='card')).toFixed(2),trips.length]);});
+  Object.keys(history).sort().forEach(dk=>{
+    const d=new Date(dk+'T12:00:00'),trips=history[dk]||[];if(!trips.length)return;
+    const g=goals[d.getDay()]||310,e=earned(trips);
+    r2.push([dk,DAYS[d.getDay()],g,+e.toFixed(2),e>=g?'Sí':'No',+earned(trips.filter(t=>t.pay==='cash')).toFixed(2),+earned(trips.filter(t=>t.pay==='card')).toFixed(2),trips.length]);
+  });
   const ws2=XLSX.utils.aoa_to_sheet(r2);ws2['!cols']=[{wch:12},{wch:12},{wch:8},{wch:14},{wch:14},{wch:12},{wch:12},{wch:10}];
   XLSX.utils.book_append_sheet(wb,ws2,'Resumen por día');
   XLSX.writeFile(wb,`yango-${new Date().toISOString().slice(0,10)}.xlsx`);
@@ -535,12 +620,9 @@ function renderSettings(){
   renderDayPills();
 }
 function clearToday(){if(!confirm('¿Borrar todas las carreras del día activo?'))return;saveTodayTrips([]);renderHome();}
-
-// MODALES
 function openSaldoModal(){document.getElementById('saldo-input').value=saldo||'';document.getElementById('saldo-overlay').classList.add('open');}
 function saveSaldo(){saldo=Math.round((parseFloat(document.getElementById('saldo-input').value)||0)*100)/100;save('yango_saldo',saldo);closeOv('saldo-overlay');renderHome();}
 function closeOv(id,e){if(!e||e.target===document.getElementById(id))document.getElementById(id).classList.remove('open');}
-
 function goView(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -549,7 +631,6 @@ function goView(id,btn){
   if(id==='settings')renderSettings();
 }
 
-// INIT
 applyTheme();renderHome();renderSettings();
 </script>
 </body>
